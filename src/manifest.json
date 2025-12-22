@@ -11,16 +11,5 @@
     "website": "https://aniliberty.top",
     "lang": "ru",
     "payloadURI": "https://raw.githubusercontent.com/vsecoder/AniLiberty-Seanime/main/src/AniLiberty.ts",
-    "plugin": {
-        "version": "1",
-        "permissions": {
-            "scopes": [
-                "anilist",
-                "database",
-                "playback",
-                "storage"
-            ]
-        }
-    },
     "isDevelopment": false
 }
