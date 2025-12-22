@@ -57,11 +57,27 @@ class Provider {
   private async fetchTorrents(releaseId: number, release: any): Promise<AnimeTorrent[]> {
     const url =
       `${this.api}/anime/torrents/release/${releaseId}` +
-      `?include=*&exclude=poster,description`;
-
+      `?include=` +
+      [
+        "id",
+        "hash",
+        "size",
+        "label",
+        "magnet",
+        "seeders",
+        "leechers",
+        "completed_times",
+        "created_at",
+        "description",
+        "is_hardsub",
+        "quality",
+        "codec",
+        "type"
+      ].join(",");
+  
     const res = await fetch(url, { headers: this.headers });
     if (!res.ok) return [];
-
+  
     const data = await res.json();
     return data.map((t: any) => this.toAnimeTorrent(t, release));
   }
