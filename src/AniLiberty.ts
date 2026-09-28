@@ -349,8 +349,8 @@ class Provider {
   // Filters
   // -------------------------
 
-  // Each filter falls back to the unfiltered list when nothing matches,
-  // so the user sees something rather than an empty result.
+  // Resolution and batch filters fall back to the unfiltered list when nothing
+  // matches, so the user sees something rather than an empty result.
   private applyFilters(torrents: AnimeTorrent[], opts: AnimeSmartSearchOptions): AnimeTorrent[] {
     let out = torrents;
 
@@ -368,10 +368,12 @@ class Provider {
     }
 
     // AniLiberty often splits a season into several torrents (1-13 / 14-24).
+    // No fallback here: on an ongoing show the torrent can lag behind the site
+    // (episode 12 is out, the torrent is still 1-11), and streaming a torrent
+    // without the episode fails. An empty result makes Seanime retry later.
     if (opts.episodeNumber && opts.episodeNumber > 0) {
       const ep = opts.episodeNumber;
-      const filtered = out.filter(t => this.coversEpisode(t, ep));
-      if (filtered.length > 0) out = filtered;
+      out = out.filter(t => this.coversEpisode(t, ep));
     }
 
     return out;
